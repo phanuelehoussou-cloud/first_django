@@ -101,7 +101,7 @@ class VoteViewTests(TestCase):
     def test_vote_without_choice_shows_error(self):
         response = self.client.post(reverse("polls:vote", args=(self.question.id,)), {})
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "You didn't select a choice.")
+        self.assertEqual(response.context["error_message"], "You didn't select a choice.")
         self.choice.refresh_from_db()
         self.assertEqual(self.choice.votes, 0)
 
